@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da78478e376045d4190beec498193a34, type: 3}
+  m_Name: TestDialogueResponse3
+  m_EditorClassIdentifier: 
+  openingScenery: {fileID: 0}
+  transitionBackgroundEventCode: 
+  transitionForegroundEventCode: 
+  activeCharacters:
+  - {fileID: 11400000, guid: 9e5bdc8fb6a11cb4b83cfbbf1e5b21a1, type: 2}
+  lines:
+  - characterName: Lia
+    voiceName: Voice000
+    expressionName: Neutral
+    content: No, silly. I'm not the real Lia.
+    LineModifiers: []
+  - characterName: Lia
+    voiceName: Voice000
+    expressionName: Neutral
+    content: The real Lia's to my right!
+    LineModifiers: []
+  - characterName: Lia
+    voiceName: Voice000
+    expressionName: Neutral
+    content: Which my right is your left.
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: I really thought I knew. That's sort of embarressing.
+    LineModifiers: []
+  - characterName: Lia
+    voiceName: Voice000
+    expressionName: Neutral
+    content: I guess you don't get to win anything! But don't worry, there's always
+      next time.
+    LineModifiers: []
+  prompt:
+    answers: []
+  nextDialogue: {fileID: 11400000, guid: 55af3722e6c53ca43a2992012c81aeb5, type: 2}

@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da78478e376045d4190beec498193a34, type: 3}
+  m_Name: TestDialogue2
+  m_EditorClassIdentifier: 
+  openingScenery: {fileID: 0}
+  transitionBackgroundEventCode: 
+  transitionForegroundEventCode: FadeToBlackForeground
+  activeCharacters:
+  - {fileID: 11400000, guid: e348d934e6dc26748b9e36c62e78dc04, type: 2}
+  lines:
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: Welp... So much for that.
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: Why do these twins look exactly the same though?
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: Nothing wrong about it except the fact that if someone were to find
+      "The Real Lia"....
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: They'd honeslty would have a hard time doing so.
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: '*Sigh*'
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: I think my brain might of had enough for today.
+    LineModifiers: []
+  prompt:
+    answers:
+    - choices: Play Again
+      responseDialogue: {fileID: 11400000, guid: 184158258a9e7fc45b7e9e40d184f1a5, type: 2}
+      eventCode: 
+    - choices: Quit
+      responseDialogue: {fileID: 0}
+      eventCode: QuitGame
+  nextDialogue: {fileID: 0}

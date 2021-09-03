@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da78478e376045d4190beec498193a34, type: 3}
+  m_Name: TestDialogue3
+  m_EditorClassIdentifier: 
+  openingScenery: {fileID: 0}
+  transitionBackgroundEventCode: 
+  transitionForegroundEventCode: FadeToBlackForeground
+  activeCharacters:
+  - {fileID: 11400000, guid: e348d934e6dc26748b9e36c62e78dc04, type: 2}
+  lines:
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: I mean... Why wouldn't I?
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: I've known Lia and her sisters ever since I was 13 years old.
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: She's the only face that I can recognize from a billion others...
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: Well, more like 3, but that's besides the point.
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: I may sound crazy when I say this, since they do look the same....
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: The only reason I can tell that she was the real Lia...
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: Her smile is completely different from her other sisters.
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: Her shillouhette more vibrant...
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: I can't really put it into words... But that's how I genuinely feel...
+    LineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: 
+    content: Cheesey, I know.... Let's just leave it as that for now.
+    LineModifiers: []
+  prompt:
+    answers:
+    - choices: Play Again
+      responseDialogue: {fileID: 11400000, guid: 184158258a9e7fc45b7e9e40d184f1a5, type: 2}
+      eventCode: 
+    - choices: Quit
+      responseDialogue: {fileID: 0}
+      eventCode: QuitGame
+  nextDialogue: {fileID: 0}

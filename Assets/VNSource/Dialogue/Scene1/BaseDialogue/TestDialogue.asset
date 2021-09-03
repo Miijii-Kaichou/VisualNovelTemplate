@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da78478e376045d4190beec498193a34, type: 3}
+  m_Name: TestDialogue
+  m_EditorClassIdentifier: 
+  openingScenery: {fileID: 21300000, guid: 156e5de9bf8fcdf4d9280519799e646d, type: 3}
+  transitionBackgroundEventCode: FadeToScenery
+  transitionForegroundEventCode: FadeOutFromForeground
+  delay: 3000
+  activeCharacters:
+  - {fileID: 11400000, guid: 9e5bdc8fb6a11cb4b83cfbbf1e5b21a1, type: 2}
+  - {fileID: 11400000, guid: 9e5bdc8fb6a11cb4b83cfbbf1e5b21a1, type: 2}
+  - {fileID: 11400000, guid: 9e5bdc8fb6a11cb4b83cfbbf1e5b21a1, type: 2}
+  - {fileID: 11400000, guid: 9e5bdc8fb6a11cb4b83cfbbf1e5b21a1, type: 2}
+  lines:
+  - characterName: Lia
+    voiceName: Voice000
+    expressionName: Neutral
+    content: Wanna play a little game?
+    lineModifiers: []
+  - characterName: Player
+    voiceName: 
+    expressionName: Attention
+    content: Games?[0][1] I enjoy games.
+    lineModifiers:
+    - command: 0
+      parameter:
+      - 1000
+    - command: 2
+      parameter: []
+  - characterName: Lia
+    voiceName: Voice000
+    expressionName: Neutral
+    content: I know you do. That's why I asked you.
+    lineModifiers: []
+  - characterName: Lia
+    voiceName: Voice000
+    expressionName: Neutral
+    content: Can you guess which one's the real Lia?
+    lineModifiers: []
+  prompt:
+    answers:
+    - choices: First One
+      responseDialogue: {fileID: 11400000, guid: 5a5ccf4b1e3568f45a5ca9823d3867dd, type: 2}
+      eventCode: 
+    - choices: Second One
+      responseDialogue: {fileID: 11400000, guid: 4f82e25edd2ce3b4dafa50bf8f6f3d39, type: 2}
+      eventCode: 
+    - choices: Third One
+      responseDialogue: {fileID: 11400000, guid: 21f82bb75f8a5c04fb9bd794701bcf15, type: 2}
+      eventCode: 
+    - choices: Forth One
+      responseDialogue: {fileID: 11400000, guid: 235dc59919f40464c9a4a32615ff9559, type: 2}
+      eventCode: 
+  nextDialogue: {fileID: 0}
