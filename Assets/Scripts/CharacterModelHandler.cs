@@ -1,18 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CharacterModelHandler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    Image characterImage;
+
+    CharacterModel attachedCharacterModel;
+    
+    [SerializeField]
+    Expression[] expressions;
+
+    private void OnValidate()
     {
-        
+        characterImage = characterImage ?? GetComponent<Image>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void InsertCharacterModel(CharacterModel characterModel)
     {
-        
+        attachedCharacterModel = characterModel;
+        ImportExpressions();
+    }
+
+    public void LoadImage(Texture2D characterSprite)
+    {
+        characterImage.sprite = Sprite.Create(
+            characterSprite, 
+            new Rect(0, 0, 0.5f, 0.5f),
+            new Vector2(0.5f, 0.5f), 100f);
+
+    }
+
+    void ImportExpressions()
+    {
+        int length = attachedCharacterModel.expressions.Length;
+        expressions = new Expression[length];
+        for (int i = 0; i < attachedCharacterModel.expressions.Length; i++)
+        {
+            expressions[i] = attachedCharacterModel.expressions[i];
+        }
+    }
+
+    public void LoadExpression(string expressionName)
+    {
+        foreach(Expression expression in expressions)
+        {
+            //Make sure the name
+            if (expression.expressionName == attachedCharacterModel.characterName + "")
+            {
+
+            }
+        }
     }
 }

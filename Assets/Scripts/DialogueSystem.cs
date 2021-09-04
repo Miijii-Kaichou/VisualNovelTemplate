@@ -34,11 +34,57 @@ public class DialogueSystem : Singleton<DialogueSystem>
     {
         public int callBackPosition;
         public Command command;
+        public string[] parameters;
+        public delegate void CommandMethod();
+
+        public CommandCallbacks()
+        {
+            parameters = new string[4];
+        }
+
+        /// <summary>
+        /// The callback associated with a Command
+        /// </summary>
+        public CommandMethod GetCommandMethod()
+        {
+            int paramIndex = 0;
+            switch (command)
+            {
+                case Command.Halt:
+                    return () => Halt(Convert.ToInt32(parameters[paramIndex++]));
+
+                case Command.ChangeSpeed:
+                    return () => ChangeSpeed(Convert.ToSingle(parameters[paramIndex++]));
+
+                case Command.Bold:
+                    return Bold;
+
+                case Command.Italize:
+                    return Italize;
+
+                case Command.Underline:
+                    return Underline;
+
+                case Command.SetColor:
+                    return () => SetColor(
+                        Convert.ToSingle(parameters[paramIndex++]),
+                        Convert.ToSingle(parameters[paramIndex++]),
+                        Convert.ToSingle(parameters[paramIndex++]),
+                        Convert.ToSingle(parameters[paramIndex++]));
+
+                case Command.ChangeExpression:
+                    return () => ChangeExpression(parameters[paramIndex++]);
+
+                default:
+                    return () => { };
+            }
+        }
     }
 
     int currentLine = 0;
     bool running = false;
     bool onHold = false;
+    int holdDuration;
     static List<CommandCallbacks> CommandCallbacksLog = new List<CommandCallbacks>();
     bool visible
     {
@@ -75,13 +121,14 @@ public class DialogueSystem : Singleton<DialogueSystem>
     {
         get
         {
-            return ParseCharPos > EvaluatingString.Length - 1 ;
+            return ParseCharPos > EvaluatingString.Length - 1;
         }
     }
 
     private void Start()
     {
         currentDialogue = initDialogue;
+        ActiveCharacterSelector.LoadInCharacters(currentDialogue);
         Run();
     }
 
@@ -103,11 +150,24 @@ public class DialogueSystem : Singleton<DialogueSystem>
 
         while (running)
         {
+            #region Pausing Dialogue Cycle from HALT commmand
+            if (onHold)
+            {
+                yield return new WaitForSeconds(holdDuration / 1000f);
+                onHold = false;
+            }
+            #endregion
+
             yield return new WaitForSeconds(Mathf.Pow(VisualCore.TextSpeedRate, ((int)VisualCore.TextSpeed)));
             NextChar(textLength);
         }
         canvasGroup.alpha = 0;
         StopCoroutine(DialogueCycle());
+    }
+
+    private void DisplayCharacterExpression()
+    {
+        throw new NotImplementedException();
     }
 
     /// <summary>
@@ -129,12 +189,27 @@ public class DialogueSystem : Singleton<DialogueSystem>
         if (charPos < lengthReference)
         {
             charPos++;
+
+            //TODO: Check CommandPositions
+            EvaluateCommandLog();
+
             DisplayChar();
         }
         else
         {
             eligibleResponse = true;
             StartCoroutine(ClickResponseCycle());
+        }
+    }
+
+    private void EvaluateCommandLog()
+    {
+        foreach (CommandCallbacks callback in CommandCallbacksLog)
+        {
+            if (charPos.Equals(callback.callBackPosition))
+            {
+                callback.GetCommandMethod().Invoke();
+            }
         }
     }
 
@@ -209,6 +284,8 @@ public class DialogueSystem : Singleton<DialogueSystem>
 
         ParseCharPos = -1;
 
+        CommandCallbacksLog.Clear();
+
         if (LastLine)
         {
             int lastLine = currentDialogue.GetLines().Length - 1;
@@ -260,7 +337,7 @@ public class DialogueSystem : Singleton<DialogueSystem>
     {
         Instance.StopAllCoroutines();
         Instance.canvasGroup.alpha = 1;
-        Instance.charPos = 1;
+        Instance.charPos = 0;
         Instance.pageNum = 0;
         Instance.currentLine = 0;
         Instance.currentDialogue.Open();
@@ -272,26 +349,32 @@ public class DialogueSystem : Singleton<DialogueSystem>
     /// </summary>
     /// <param name="targetString"></param>
     /// <returns></returns>
-    internal static string ParseLine(string targetString)
+    public static string ParseLine(string targetString)
     {
         EvaluatingString = targetString;
         char character = '\n';
         int commandIndex;
-        
+        int count = 0;
         while (!EOL)
         {
-            
+
             if (character == '[')
             {
                 CommandCallbacks newCallback = new CommandCallbacks();
-                newCallback.callBackPosition = ParseCharPos;
-                commandIndex = (int)char.GetNumericValue(Peek(0));
-                newCallback.command = Instance.currentDialogue.GetLines()[Instance.currentLine].lineModifiers[commandIndex].command;
+                newCallback.callBackPosition = ParseCharPos - count;
+                char numberChar = Peek(0);
+                EvaluatingString = EvaluatingString.Remove(ParseCharPos, 1);
+                commandIndex = (int)char.GetNumericValue(numberChar);
+
+                LineModifier modifier = Instance.currentDialogue.GetLines()[Instance.currentLine].lineModifiers[commandIndex];
+                newCallback.command = modifier.command;
+                newCallback.parameters = modifier.parameter;
+
                 CommandCallbacksLog.Add(newCallback);
+                count+=2;
             }
             character = Peek(0);
         }
-        Debug.Log($"Command Length: {CommandCallbacksLog.Count}");
         targetString = RemoveAllChars(EvaluatingString, '[', ']');
         return targetString;
     }
@@ -308,9 +391,48 @@ public class DialogueSystem : Singleton<DialogueSystem>
         {
             return '\0';
         }
-        
+
         return EvaluatingString[ParseCharPos + offset];
     }
+
+    #region Dialogue Commands
+    static void Halt(int milliseconds)
+    {
+        Instance.onHold = true;
+        Instance.holdDuration = milliseconds;
+
+    }
+
+    static void ChangeSpeed(float textRate)
+    {
+
+    }
+
+    static void Bold()
+    {
+
+    }
+
+    static void Italize()
+    {
+
+    }
+
+    static void Underline()
+    {
+
+    }
+
+    static void SetColor(float r, float g, float b, float a)
+    {
+
+    }
+
+    static void ChangeExpression(string expressionName)
+    {
+
+    }
+    #endregion
 
     /// <summary>
     /// Removes all occuring characters in a given string.
@@ -320,15 +442,19 @@ public class DialogueSystem : Singleton<DialogueSystem>
     /// <returns></returns>
     static string RemoveAllChars(string str, params char[] characters)
     {
-        string parsedString = string.Empty;
+        string parsedString = str;
+
         for (int k = 0; k < characters.Length; k++)
         {
-            int j, count = 0, n = str.Length;
-            char[] t = str.ToCharArray();
+            int j, count = 0, n = parsedString.Length;
+
+            char[] t = parsedString.ToCharArray();
+
             for (int i = j = 0; i < n; i++)
             {
-                if (str[i] != characters[k])
-                    t[j++] = str[i];
+                if (parsedString[i] != characters[k])
+                    t[j++] = parsedString[i];
+
                 else count++;
             }
 
@@ -337,6 +463,7 @@ public class DialogueSystem : Singleton<DialogueSystem>
                 t[j++] = '\0';
                 count--;
             }
+
             parsedString = t.ArrayToString();
         }
 

@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ActiveCharacterSelector : Singleton<ActiveCharacterSelector>
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    CharacterModelHandler[] characterModelHandlers;
+
+    public static void LoadInCharacters(Dialogue targetDialogue)
     {
-        
+        int index = 0;
+        foreach(CharacterModelHandler handler in Instance.characterModelHandlers)
+        {
+            handler.InsertCharacterModel(targetDialogue.GetCharacterModels()[index]);
+            index++;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void SelectActiveSpeaker()
     {
-        
+
     }
 }

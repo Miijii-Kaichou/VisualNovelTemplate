@@ -60,4 +60,6 @@ public class Dialogue : ScriptableObject
         if(transitionForegroundEventCode != string.Empty)
             EventManager.TriggerEvent(transitionForegroundEventCode);
     }
+
+    public CharacterModel[] GetCharacterModels() => activeCharacters;
 }

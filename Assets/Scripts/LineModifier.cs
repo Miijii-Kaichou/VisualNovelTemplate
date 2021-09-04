@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 public enum Command
 {
@@ -15,5 +16,7 @@ public enum Command
 public class LineModifier
 {
     public Command command;
+
+    [SerializeField]
     public string[] parameter;
 }

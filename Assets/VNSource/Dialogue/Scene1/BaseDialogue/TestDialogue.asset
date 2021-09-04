@@ -25,26 +25,41 @@ MonoBehaviour:
   - characterName: Lia
     voiceName: Voice000
     expressionName: Neutral
+    referencePointer: 0
     content: Wanna play a little game?
     lineModifiers: []
   - characterName: Player
     voiceName: 
     expressionName: Attention
-    content: Games?[0][1] I enjoy games.
+    referencePointer: 1
+    content: Games?[0] I enjoy games.[1] I love to do the games![2] Show me more![3]
+      And I want you to show me now.[4] Please. I'm desperate.
     lineModifiers:
     - command: 0
       parameter:
       - 1000
-    - command: 2
-      parameter: []
+    - command: 0
+      parameter:
+      - 1000
+    - command: 0
+      parameter:
+      - 1000
+    - command: 0
+      parameter:
+      - 1000
+    - command: 0
+      parameter:
+      - 500
   - characterName: Lia
     voiceName: Voice000
     expressionName: Neutral
+    referencePointer: 1
     content: I know you do. That's why I asked you.
     lineModifiers: []
   - characterName: Lia
     voiceName: Voice000
     expressionName: Neutral
+    referencePointer: 1
     content: Can you guess which one's the real Lia?
     lineModifiers: []
   prompt:
