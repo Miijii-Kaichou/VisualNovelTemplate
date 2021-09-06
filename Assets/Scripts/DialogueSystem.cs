@@ -56,22 +56,6 @@ public class DialogueSystem : Singleton<DialogueSystem>
                 case Command.ChangeSpeed:
                     return () => ChangeSpeed(Convert.ToSingle(parameters[paramIndex++]));
 
-                case Command.Bold:
-                    return Bold;
-
-                case Command.Italize:
-                    return Italize;
-
-                case Command.Underline:
-                    return Underline;
-
-                case Command.SetColor:
-                    return () => SetColor(
-                        Convert.ToSingle(parameters[paramIndex++]),
-                        Convert.ToSingle(parameters[paramIndex++]),
-                        Convert.ToSingle(parameters[paramIndex++]),
-                        Convert.ToSingle(parameters[paramIndex++]));
-
                 case Command.ChangeExpression:
                     return () => ChangeExpression(parameters[paramIndex++]);
 
@@ -144,6 +128,8 @@ public class DialogueSystem : Singleton<DialogueSystem>
 
         FetchDialogueData();
 
+        ActiveCharacterSelector.LoadInCharacters(currentDialogue);
+
         DisplayCharacterName(characterName);
 
         running = true;
@@ -165,9 +151,57 @@ public class DialogueSystem : Singleton<DialogueSystem>
         StopCoroutine(DialogueCycle());
     }
 
-    private void DisplayCharacterExpression()
+#nullable enable annotations
+    private Voice? GetVoice(CharacterModel model, string name)
     {
-        throw new NotImplementedException();
+        for(int i = 0; i < model.voices.Length; i++)
+        {
+            Voice currentVoice = model.voices[i];
+            if (currentVoice.voiceName.Equals(name))
+            {
+                return currentVoice;
+            }
+        }
+        return null;
+    }
+
+#nullable enable annotations
+    private Expression? GetCharacterExpression(CharacterModel model, string name)
+    {
+        for(int i = 0; i < model.expressions.Length; i++)
+        {
+            Expression currentExpression = model.expressions[i];
+            if (currentExpression.expressionName.Equals(name))
+            {
+                return currentExpression;
+            }
+        }
+
+        return null;
+    }
+
+#nullable enable annotations
+    private CharacterModel? GetCharacterModel(int index = 0)
+    {
+        CharacterModel[] collection = currentDialogue.GetCharacterModels();
+        int count = 0;
+         foreach (CharacterModel model in collection)
+        {
+            if(index == -1)
+            {
+                //TODO: Find the first Character Model with the matching name in the current dialogue line,
+                if (currentDialogue.GetLines()[currentLine].characterName.Equals(model.characterName))
+                {
+                    return model;
+                }
+            } else if (count == index)
+            {
+                return model;
+            }
+
+            count++;
+        }
+        return null;
     }
 
     /// <summary>
@@ -405,25 +439,10 @@ public class DialogueSystem : Singleton<DialogueSystem>
 
     static void ChangeSpeed(float textRate)
     {
-
+        VisualCore.TextSpeedRate = textRate;
     }
 
-    static void Bold()
-    {
-
-    }
-
-    static void Italize()
-    {
-
-    }
-
-    static void Underline()
-    {
-
-    }
-
-    static void SetColor(float r, float g, float b, float a)
+    static void SetColor(float r, float g, float b, float a, int length = 1)
     {
 
     }
@@ -432,7 +451,17 @@ public class DialogueSystem : Singleton<DialogueSystem>
     {
 
     }
+
+    static void InsertCharacterModel(string name)
+    {
+
+    }
     #endregion
+
+    static void ChangeCharacterImage(int slotPosition)
+    {
+
+    }
 
     /// <summary>
     /// Removes all occuring characters in a given string.

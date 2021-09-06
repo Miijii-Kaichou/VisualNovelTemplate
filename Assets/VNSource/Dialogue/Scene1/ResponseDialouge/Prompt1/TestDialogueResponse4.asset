@@ -12,55 +12,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da78478e376045d4190beec498193a34, type: 3}
   m_Name: TestDialogueResponse4
   m_EditorClassIdentifier: 
+  openingScenery: {fileID: 0}
+  transitionBackgroundEventCode: 
+  transitionForegroundEventCode: 
+  delay: 3
   activeCharacters:
   - {fileID: 11400000, guid: 9e5bdc8fb6a11cb4b83cfbbf1e5b21a1, type: 2}
   lines:
   - characterName: Lia
     voiceName: Voice000
     expressionName: Neutral
+    referencePointer: 0
     content: Wow! You can't even tell? Obviously, I'm not the real Lia.
-    LineModifiers: []
+    lineModifiers: []
   - characterName: Player
     voiceName: 
     expressionName: 
+    referencePointer: 0
     content: 'I honestly can''t help it.
 
       Sorry if I offended you in any way.'
-    LineModifiers: []
+    lineModifiers: []
   - characterName: Lia
     voiceName: Voice000
     expressionName: Neutral
+    referencePointer: 0
     content: You didn't, but the real Lia might of.
-    LineModifiers: []
+    lineModifiers: []
   - characterName: Lia
     voiceName: Voice000
     expressionName: Neutral
+    referencePointer: 0
     content: I'm not mad... We all actually do look alike. I wouldn't blame him for
       not guessing the real me.
-    LineModifiers: []
+    lineModifiers: []
   - characterName: Lia
     voiceName: Voice000
     expressionName: Neutral
+    referencePointer: 1
     content: You're too soft on him. You should admit that you're mad because he
       wasn't able to distinguish between us and you, Lia.
-    LineModifiers: []
+    lineModifiers: []
   - characterName: Player
     voiceName: 
     expressionName: 
+    referencePointer: 1
     content: I'll do better next time Lia! I promise!
-    LineModifiers: []
+    lineModifiers: []
   - characterName: Lia
     voiceName: Voice000
     expressionName: Neutral
+    referencePointer: 1
     content: Well... Okay then. But like I said, I'm not going to be mad at you for
       something that would obviously be complicated to do, even for us. And I don't
       even get why we're all named Lia!
-    LineModifiers: []
+    lineModifiers: []
   - characterName: Lia
     voiceName: Voice000
     expressionName: Neutral
+    referencePointer: 1
     content: Duh. That's why we go by different names, remember?
-    LineModifiers: []
+    lineModifiers: []
   prompt:
     answers: []
   nextDialogue: {fileID: 11400000, guid: 55af3722e6c53ca43a2992012c81aeb5, type: 2}

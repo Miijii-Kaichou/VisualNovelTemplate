@@ -5,6 +5,8 @@ public class ActiveCharacterSelector : Singleton<ActiveCharacterSelector>
     [SerializeField]
     CharacterModelHandler[] characterModelHandlers;
 
+    public static CharacterModelHandler[] CharacterModelHandlers => Instance.characterModelHandlers;
+
     public static void LoadInCharacters(Dialogue targetDialogue)
     {
         int index = 0;

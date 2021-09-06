@@ -9,7 +9,7 @@ public class CharacterModelHandler : MonoBehaviour
     CharacterModel attachedCharacterModel;
     
     [SerializeField]
-    Expression[] expressions;
+    Expression[] currentExpressions;
 
     private void OnValidate()
     {
@@ -34,16 +34,16 @@ public class CharacterModelHandler : MonoBehaviour
     void ImportExpressions()
     {
         int length = attachedCharacterModel.expressions.Length;
-        expressions = new Expression[length];
+        currentExpressions = new Expression[length];
         for (int i = 0; i < attachedCharacterModel.expressions.Length; i++)
         {
-            expressions[i] = attachedCharacterModel.expressions[i];
+            currentExpressions[i] = attachedCharacterModel.expressions[i];
         }
     }
 
     public void LoadExpression(string expressionName)
     {
-        foreach(Expression expression in expressions)
+        foreach(Expression expression in currentExpressions)
         {
             //Make sure the name
             if (expression.expressionName == attachedCharacterModel.characterName + "")

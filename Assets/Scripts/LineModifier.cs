@@ -5,11 +5,8 @@ public enum Command
 {
     Halt,
     ChangeSpeed,
-    Bold,
-    Italize,
-    Underline,
-    SetColor,
-    ChangeExpression
+    ChangeExpression,
+    InsertCharacterModel
 }
 
 [Serializable]

@@ -32,36 +32,43 @@ MonoBehaviour:
     voiceName: 
     expressionName: Attention
     referencePointer: 1
-    content: Games?[0] I enjoy games.[1] I love to do the games![2] Show me more![3]
-      And I want you to show me now.[4] Please. I'm desperate.
+    content: Games?[0] I enjoy games.[1] I[2] love [0][3]to do the games![0] Show
+      me more![1] And I want you to show me now.[1] Please. I'm very desperate.
     lineModifiers:
     - command: 0
       parameter:
       - 1000
     - command: 0
       parameter:
-      - 1000
-    - command: 0
+      - 500
+    - command: 1
       parameter:
-      - 1000
-    - command: 0
+      - 0.5
+    - command: 1
       parameter:
-      - 1000
+      - 0.25
+  - characterName: Lia
+    voiceName: Voice000
+    expressionName: Neutral
+    referencePointer: 0
+    content: I know you do.[0][1]That's why I asked you.
+    lineModifiers:
     - command: 0
       parameter:
       - 500
+    - command: 2
+      parameter:
+      - Humored
   - characterName: Lia
     voiceName: Voice000
     expressionName: Neutral
-    referencePointer: 1
-    content: I know you do. That's why I asked you.
-    lineModifiers: []
-  - characterName: Lia
-    voiceName: Voice000
-    expressionName: Neutral
-    referencePointer: 1
-    content: Can you guess which one's the real Lia?
-    lineModifiers: []
+    referencePointer: 0
+    content: Can you guess which one's the[0]<color="yellow"><b>real</b></color>
+      Lia?
+    lineModifiers:
+    - command: 0
+      parameter:
+      - 500
   prompt:
     answers:
     - choices: First One

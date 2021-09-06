@@ -22,7 +22,7 @@ public class VisualCore : Singleton<VisualCore>
     [SerializeField]
     private List<Line> dialogueHistory;
 
-    readonly float textSpeedRate = 0.25f;
+    float textSpeedRate = 0.25f;
 
     public static TextSpeed TextSpeed
     {
@@ -37,6 +37,10 @@ public class VisualCore : Singleton<VisualCore>
         get
         {
             return Instance.textSpeedRate;
+        }
+        set
+        {
+            Instance.textSpeedRate = value;
         }
     }
 
