@@ -25,13 +25,17 @@ MonoBehaviour:
   - characterName: Lia
     voiceName: Voice000
     expressionName: Neutral
-    referencePointer: 0
+    referencePointer: -1
+    showCharacters: 1
+    showOptions: 1
     content: Wanna play a little game?
     lineModifiers: []
   - characterName: Player
     voiceName: 
-    expressionName: Attention
-    referencePointer: 1
+    expressionName: 
+    referencePointer: -1
+    showCharacters: 1
+    showOptions: 1
     content: Games?[0] I enjoy games.[1] I[2] love [0][3]to do the games![0] Show
       me more![1] And I want you to show me now.[1] Please. I'm very desperate.
     lineModifiers:
@@ -50,8 +54,10 @@ MonoBehaviour:
   - characterName: Lia
     voiceName: Voice000
     expressionName: Neutral
-    referencePointer: 0
-    content: I know you do.[0][1]That's why I asked you.
+    referencePointer: 3
+    showCharacters: 1
+    showOptions: 1
+    content: We know you do.[0][1]That's why we asked you.
     lineModifiers:
     - command: 0
       parameter:
@@ -62,9 +68,10 @@ MonoBehaviour:
   - characterName: Lia
     voiceName: Voice000
     expressionName: Neutral
-    referencePointer: 0
-    content: Can you guess which one's the[0]<color="yellow"><b>real</b></color>
-      Lia?
+    referencePointer: -1
+    showCharacters: 1
+    showOptions: 2
+    content: Can you guess which one's the[0] real Lia?
     lineModifiers:
     - command: 0
       parameter:

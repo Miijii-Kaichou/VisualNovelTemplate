@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// A scriptable object used to construct dialogue of a different set
+/// of character models.
+/// </summary>
 [CreateAssetMenu(fileName = "New Dialogue", menuName = "Dialogue", order = 1)]
 public class Dialogue : ScriptableObject
 {
@@ -22,15 +26,31 @@ public class Dialogue : ScriptableObject
     [SerializeField]
     Prompt prompt;
 
+    /// <summary>
+    /// Get all subsequent lines from this dialogue.
+    /// </summary>
+    /// <returns></returns>
     internal Line[] GetLines() => lines;
 
+    /// <summary>
+    /// The next dialogue to be read after this one.
+    /// </summary>
     [SerializeField, Header("After Last Line")]
     internal Dialogue nextDialogue;
 
+    /// <summary>
+    /// Gets the attached prompt for this set of dialogue.
+    /// </summary>
+    /// <returns></returns>
     internal Prompt GetPrompt() => prompt;
 
+    //The amount of characters allowed for dialogue
     const int CHARACTER_CAPACITY_LIMIT = 5;
 
+    /// <summary>
+    /// Is called for every values that changes. (Automatically called
+    /// from Unity)
+    /// </summary>
     private void OnValidate()
     {
         if(activeCharacters.Length > CHARACTER_CAPACITY_LIMIT)
@@ -49,6 +69,10 @@ public class Dialogue : ScriptableObject
         }
     }
 
+    /// <summary>
+    /// Open the scene with an image, background transition, and
+    /// foreground transition.
+    /// </summary>
     public void Open()
     {
         if (openingScenery != null)

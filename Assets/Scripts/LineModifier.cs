@@ -1,6 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
+/// <summary>
+/// A list of different commands
+/// </summary>
 public enum Command
 {
     Halt,

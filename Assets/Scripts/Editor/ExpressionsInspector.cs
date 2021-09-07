@@ -12,7 +12,7 @@ public class ExpressionsInspector : PropertyDrawer
 
         try
         {
-            expression = property.FindPropertyRelative("expression");
+            expression = property.FindPropertyRelative("texture");
 
             position.height = EditorGUIUtility.singleLineHeight; position.width -= 80;
             EditorGUI.LabelField(position, expression.objectReferenceValue.name);

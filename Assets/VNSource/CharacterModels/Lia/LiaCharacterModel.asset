@@ -16,5 +16,6 @@ MonoBehaviour:
   voices:
   - voice: {fileID: 8300000, guid: 2d75a406ccebace45a2ef18c4baf32ed, type: 3}
   expressions:
-  - expressionName: Neutral
-    expression: {fileID: 2800000, guid: ccf9bc64aabe65a4c97bf9d7d17fca5c, type: 3}
+  - texture: {fileID: 2800000, guid: ccf9bc64aabe65a4c97bf9d7d17fca5c, type: 3}
+    pixelsPerUnit: 100
+  expressionPPU: 100

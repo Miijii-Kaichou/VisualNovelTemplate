@@ -28,8 +28,15 @@ public class DialogueSystem : Singleton<DialogueSystem>
     //For parse a line before displaying it onto the screen
     static int ParseCharPos = -1;
 
+
+    //The string data that is currently being parsed.
     static string EvaluatingString = string.Empty;
 
+
+    /// <summary>
+    /// A class that takes in the different commands that happens in 
+    /// a line.
+    /// </summary>
     public class CommandCallbacks
     {
         public int callBackPosition;
@@ -59,17 +66,33 @@ public class DialogueSystem : Singleton<DialogueSystem>
                 case Command.ChangeExpression:
                     return () => ChangeExpression(parameters[paramIndex++]);
 
+                case Command.InsertCharacterModel:
+                   throw new NotImplementedException();
+
                 default:
-                    return () => { };
+                   throw new NotImplementedException();
             }
         }
     }
 
-    int currentLine = 0;
+    //The index value of the current line that we are on.
+    int lineIndex = 0;
+
+    Line currentLine = null;
+
+    //If dialouge is currently running.
     bool running = false;
+
+    //If a line will pause
     bool onHold = false;
+
+    //How long a line is on pause.
     int holdDuration;
+
+    //A list of commands parses from the current line.
     static List<CommandCallbacks> CommandCallbacksLog = new List<CommandCallbacks>();
+    
+    //If the Dialogue Box is visible or not.
     bool visible
     {
         get
@@ -78,8 +101,10 @@ public class DialogueSystem : Singleton<DialogueSystem>
         }
     }
 
-
+    //If the player is allowed to click to the next dialogue
     bool eligibleResponse = false;
+
+    //The chracter name, and their line to display
     string characterName, textToDisplay;
     int pageNum = 1;
     int textLength = 0;
@@ -94,7 +119,7 @@ public class DialogueSystem : Singleton<DialogueSystem>
         get
         {
             int lineLength = currentDialogue.GetLines().Length;
-            return currentLine > lineLength - 1;
+            return lineIndex > lineLength - 1;
         }
     }
 
@@ -112,7 +137,6 @@ public class DialogueSystem : Singleton<DialogueSystem>
     private void Start()
     {
         currentDialogue = initDialogue;
-        ActiveCharacterSelector.LoadInCharacters(currentDialogue);
         Run();
     }
 
@@ -128,9 +152,11 @@ public class DialogueSystem : Singleton<DialogueSystem>
 
         FetchDialogueData();
 
-        ActiveCharacterSelector.LoadInCharacters(currentDialogue);
+        ActiveCharacterSelector.SendCharacterModelsToHandlers(currentDialogue);
 
         DisplayCharacterName(characterName);
+
+        SetUpCharacter();
 
         running = true;
 
@@ -151,66 +177,14 @@ public class DialogueSystem : Singleton<DialogueSystem>
         StopCoroutine(DialogueCycle());
     }
 
-#nullable enable annotations
-    private Voice? GetVoice(CharacterModel model, string name)
-    {
-        for(int i = 0; i < model.voices.Length; i++)
-        {
-            Voice currentVoice = model.voices[i];
-            if (currentVoice.voiceName.Equals(name))
-            {
-                return currentVoice;
-            }
-        }
-        return null;
-    }
-
-#nullable enable annotations
-    private Expression? GetCharacterExpression(CharacterModel model, string name)
-    {
-        for(int i = 0; i < model.expressions.Length; i++)
-        {
-            Expression currentExpression = model.expressions[i];
-            if (currentExpression.expressionName.Equals(name))
-            {
-                return currentExpression;
-            }
-        }
-
-        return null;
-    }
-
-#nullable enable annotations
-    private CharacterModel? GetCharacterModel(int index = 0)
-    {
-        CharacterModel[] collection = currentDialogue.GetCharacterModels();
-        int count = 0;
-         foreach (CharacterModel model in collection)
-        {
-            if(index == -1)
-            {
-                //TODO: Find the first Character Model with the matching name in the current dialogue line,
-                if (currentDialogue.GetLines()[currentLine].characterName.Equals(model.characterName))
-                {
-                    return model;
-                }
-            } else if (count == index)
-            {
-                return model;
-            }
-
-            count++;
-        }
-        return null;
-    }
-
     /// <summary>
     /// Get the dialogue data already staged.
     /// </summary>
     private void FetchDialogueData()
     {
-        characterName = currentDialogue.GetLines()[currentLine].characterName;
-        textToDisplay = ParseLine(currentDialogue.GetLines()[currentLine].content);
+        currentLine = currentDialogue.GetLines()[lineIndex];
+        characterName = currentLine.characterName;
+        textToDisplay = ParseLine(currentLine.content);
         textLength = textToDisplay.Length;
     }
 
@@ -236,6 +210,10 @@ public class DialogueSystem : Singleton<DialogueSystem>
         }
     }
 
+    /// <summary>
+    /// Evaluate the saved commands from a parsed
+    /// evaluated string.
+    /// </summary>
     private void EvaluateCommandLog()
     {
         foreach (CommandCallbacks callback in CommandCallbacksLog)
@@ -314,7 +292,7 @@ public class DialogueSystem : Singleton<DialogueSystem>
     /// </summary>
     void NextLine()
     {
-        currentLine++;
+        lineIndex++;
 
         ParseCharPos = -1;
 
@@ -333,12 +311,26 @@ public class DialogueSystem : Singleton<DialogueSystem>
             return;
         }
 
-        VisualCore.AddToHistory(currentDialogue.GetLines()[currentLine - 1]);
+        VisualCore.AddToHistory(currentDialogue.GetLines()[lineIndex - 1]);
 
         FetchDialogueData();
         pageNum = 1;
         DisplayCharacterName(characterName);
         charPos = 0;
+
+        SetUpCharacter();
+    }
+
+    void SetUpCharacter()
+    {
+        if (currentLine.referencePointer == -1)
+        {
+            ActiveCharacterSelector.SelectActiveSpeaker(characterName, currentLine);
+        }
+        else
+        {
+            ActiveCharacterSelector.SelectActiveSpeaker(currentLine.referencePointer, currentLine);
+        }
     }
 
     /// <summary>
@@ -373,7 +365,7 @@ public class DialogueSystem : Singleton<DialogueSystem>
         Instance.canvasGroup.alpha = 1;
         Instance.charPos = 0;
         Instance.pageNum = 0;
-        Instance.currentLine = 0;
+        Instance.lineIndex = 0;
         Instance.currentDialogue.Open();
         Instance.StartCoroutine(Instance.DialogueCycle());
     }
@@ -400,7 +392,7 @@ public class DialogueSystem : Singleton<DialogueSystem>
                 EvaluatingString = EvaluatingString.Remove(ParseCharPos, 1);
                 commandIndex = (int)char.GetNumericValue(numberChar);
 
-                LineModifier modifier = Instance.currentDialogue.GetLines()[Instance.currentLine].lineModifiers[commandIndex];
+                LineModifier modifier = Instance.currentLine.lineModifiers[commandIndex];
                 newCallback.command = modifier.command;
                 newCallback.parameters = modifier.parameter;
 
