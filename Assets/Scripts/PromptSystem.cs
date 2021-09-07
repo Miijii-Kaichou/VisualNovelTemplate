@@ -27,9 +27,11 @@ public class PromptSystem : MonoBehaviour
 
                 Dialogue responseDialouge = currentPrompt.answers[i].responseDialogue;
                 string eventCode = currentPrompt.answers[i].eventCode;
+                string param = currentPrompt.answers[i].parameter;
                 answer.button.onClick.AddListener(() =>
                 {
                     EventManager.TriggerEvent(eventCode);
+                    VNEventCodeLogger.SetParam = param;
                     GotoDialogue(responseDialouge);
                 });
             }
@@ -48,6 +50,7 @@ public class PromptSystem : MonoBehaviour
             answer.button.onClick.RemoveAllListeners();
             answer.gameObject.SetActive(false);
         }
+
         DialogueSystem.Stage(response);
         DialogueSystem.Run();
     }

@@ -16,6 +16,9 @@ public static class VNEventCodeLogger
      * If you need an event to happen at an end of a dialogue, those events will be created here,*
      * and called whereever you want (preferably with prompts for each Dialogue Object.          *
      ********************************************************************************************/
+
+    public static string SetParam;
+
     public static void BirthAllEvents()
     {
         if (conceived) return;
@@ -62,6 +65,15 @@ public static class VNEventCodeLogger
         EventManager.AddEvent(EventManager.FreeID, "FadeOutFromForeground", () =>
         {
             VisualCore.SceneryHandler.Transition(TransitionAction.FadeOutForeground);
+        });
+
+        EventManager.AddEvent(EventManager.FreeID, "AddLove", () =>
+        {
+            int index = 0;
+            if(SetParam != string.Empty)
+            {
+
+            }
         });
         #endregion
 

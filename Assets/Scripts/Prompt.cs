@@ -12,8 +12,9 @@ public class Prompt
 
         public Dialogue responseDialogue;
 
-        [SerializeField]
         public string eventCode;
+
+        public string parameter;
     }
 
     public Answer[] answers;
